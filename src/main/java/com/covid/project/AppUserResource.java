@@ -2,6 +2,8 @@ package com.covid.project;
 
 import com.covid.project.appuser.AppUserRepository;
 import com.covid.project.appuser.AppUserRole;
+import com.covid.project.registration.LoginRequest;
+import com.covid.project.registration.RegistrationRequest;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,22 +24,24 @@ public class AppUserResource {
     public AppUserResource(AppUserService appUserService){ this.appUserService = appUserService;}
 
     @PostMapping("/register/USER")
-    public ResponseEntity<AppUser> registerUser(@RequestBody String firstName, String lastName, String email, String password){
-        AppUser appUser =new AppUser(firstName, lastName, email, password, AppUserRole.USER);
+    public ResponseEntity<AppUser> registerUser(@RequestBody RegistrationRequest request){
+        System.out.println("Making user: "+request.getFirstName());
+        AppUser appUser =new AppUser(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), AppUserRole.USER);
         AppUser newUser=appUserService.signUpUser(appUser);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
     @PostMapping("/register/ADMIN")
-    public ResponseEntity<AppUser> registerAdmin(@RequestBody String firstName, String lastName, String email, String password){
-        AppUser appUser =new AppUser(firstName, lastName, email, password, AppUserRole.ADMIN);
+    public ResponseEntity<AppUser> registerAdmin(@RequestBody RegistrationRequest request){
+        System.out.println("Making user: "+request.getFirstName());
+        AppUser appUser =new AppUser(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword(), AppUserRole.ADMIN);
         AppUser newUser=appUserService.signUpUser(appUser);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<AppUser> loginUser(@RequestBody String email, String password){
-        AppUser user = appUserService.loadUserByUsername(email);
-        if(encoder.matches(password, user.getPassword())){
+    @PostMapping("/login")
+    public ResponseEntity<AppUser> loginUser(@RequestBody LoginRequest login){
+        AppUser user = appUserService.loadUserByUsername(login.getEmail());
+        if(encoder.matches(login.getPassword(), user.getPassword())){
             return ResponseEntity.ok(user);
         }
         return (ResponseEntity<AppUser>) ResponseEntity.internalServerError();
