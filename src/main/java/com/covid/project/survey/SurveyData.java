@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class SurveyData {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(nullable=false,  updatable=false)
     private Long id;
     private String Date_Taken;
