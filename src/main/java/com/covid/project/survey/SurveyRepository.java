@@ -1,4 +1,5 @@
-package com.covid.project.appuser;
+package com.covid.project.survey;
+
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,10 +10,9 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface AppUserRepository
-        extends JpaRepository<AppUser, Long> {
+public interface SurveyRepository extends JpaRepository<SurveyData, Long> {
 
-    Optional<AppUser> findByEmail(String email);
+    Optional<SurveyData> findDataById(Long id);
 
-    Optional<AppUser>findUserById(Long id);
+
 }

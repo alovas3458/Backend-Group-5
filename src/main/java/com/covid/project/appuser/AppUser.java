@@ -35,6 +35,9 @@ public class AppUser implements UserDetails{
     private String lastName;
     private String email;
     private String password;
+
+    private Long surveyId = null;
+
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
     public AppUser(String firstName,

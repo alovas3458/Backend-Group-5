@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -19,7 +20,9 @@ public class VaccineService {
 
 
     public List<VaccineData> getClosestLocation(VaccineLocation vaccineLocation){
-        return vaccineRepository.findVaccineDataInDistance(vaccineLocation.getLatitude(), vaccineLocation.getLongitude(), 5);
+        List<VaccineData> list=vaccineRepository.findVaccineDataInDistance(vaccineLocation.getLatitude(), vaccineLocation.getLongitude(), 5);
+        List<VaccineData> list2=list.stream().limit(5).collect(Collectors.toList());
+        return list2;
     }
 
 

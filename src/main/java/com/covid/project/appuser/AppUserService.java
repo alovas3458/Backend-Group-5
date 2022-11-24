@@ -36,4 +36,19 @@ public class AppUserService implements UserDetailsService {
         return appUserRepository.save(appUser);
     }
 
+
+    public AppUser findUserById(Long id){
+        return appUserRepository.findUserById(id).orElseThrow(() -> new UsernameNotFoundException("user by id "+id+" was not found"));
+    }
+
+
+    public AppUser updateUserSurvey(SurveyInput surveyInput){
+        AppUser appUser=findUserById(surveyInput.userid);
+        appUser.setSurveyId(surveyInput.surveyid);
+        return appUserRepository.save(appUser);
+
+
+
+    }
+
 }

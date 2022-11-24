@@ -1,16 +1,14 @@
 package com.covid.project;
 
-import com.covid.project.appuser.AppUserRepository;
-import com.covid.project.appuser.AppUserRole;
+import com.covid.project.appuser.*;
 import com.covid.project.registration.LoginRequest;
 import com.covid.project.registration.RegistrationRequest;
+import com.covid.project.survey.SurveyData;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import com.covid.project.appuser.AppUser;
-import com.covid.project.appuser.AppUserService;
 
 
 import java.util.List;
@@ -45,6 +43,17 @@ public class AppUserResource {
             return ResponseEntity.ok(user);
         }
         return (ResponseEntity<AppUser>) ResponseEntity.internalServerError();
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<AppUser> getAppUserById(@PathVariable("id") Long id){
+        AppUser appUser=appUserService.findUserById(id);
+        return new ResponseEntity<>(appUser, HttpStatus.OK);
+    }
+    @PostMapping("/survey")
+    public ResponseEntity<AppUser> updateSurveyId(@RequestBody SurveyInput surveyInput){
+        AppUser appUser=appUserService.updateUserSurvey(surveyInput);
+        return new ResponseEntity<>(appUser, HttpStatus.OK);
     }
 
 
