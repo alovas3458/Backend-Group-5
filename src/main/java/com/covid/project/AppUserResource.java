@@ -56,6 +56,17 @@ public class AppUserResource {
         return new ResponseEntity<>(appUser, HttpStatus.OK);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<AppUser>> getAllUserData(){
+        List<AppUser> appUsers=appUserService.getAllUserData();
+        return new ResponseEntity<>(appUsers, HttpStatus.OK);
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
+        appUserService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 
 

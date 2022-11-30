@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface AppUserRepository
         extends JpaRepository<AppUser, Long> {
 
+    void deleteUserById(Long id);
+
     Optional<AppUser> findByEmail(String email);
 
     Optional<AppUser>findUserById(Long id);
